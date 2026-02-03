@@ -6,28 +6,28 @@ services:
     container_name: nginx-static
     restart: unless-stopped
     networks:
-      - project-net
+      - tokis-net
 
   apache:
     image: tokisero/apache:0.1
     container_name: apache
     restart: unless-stopped
     networks:
-      - project-net
+      - tokis-net
 
   red:
     image: tokisero/red:0.1
     container_name: red
     restart: unless-stopped
     networks:
-      - project-net
+      - tokis-net
 
   blue:
     image: tokisero/blue:0.1
     container_name: blue
     restart: unless-stopped
     networks:
-      - project-net
+      - tokis-net
 
   nginx-proxy:
     image: tokisero/nginx-proxy:0.1
@@ -56,10 +56,10 @@ services:
       - ./certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     networks:
-      - project-net
+      - tokis-net
     depends_on:
       - nginx-proxy
 
 networks:
-  project-net:
+  tokis-net:
     driver: bridge
